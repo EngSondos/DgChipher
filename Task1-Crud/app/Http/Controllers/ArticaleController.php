@@ -33,7 +33,7 @@ class ArticaleController extends Controller
         }
         // dd($data);
         $status=Articale::create($data);
-        return $this->redirectBack($status->exists);
+        return $this->redirectBack($status->exists,'aricale.index');
     }
 
 
@@ -53,7 +53,7 @@ class ArticaleController extends Controller
             Media::delete($dir."//$articale->image");
             $data['image']=$newimage;
         }
-        return $this->redirectBack($articale->where('id',$articale->id)->update($data));
+        return $this->redirectBack($articale->where('id',$articale->id)->update($data),'articale.index');
     }
 
     public function destroy(Articale $articale)

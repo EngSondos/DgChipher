@@ -27,7 +27,7 @@ class CategoryController extends Controller
     {
         $data= $request->except('_token');
         $status= Category::create($data);
-        return $this->redirectBack($status->exists);
+        return $this->redirectBack($status->exists,'category.index');
     }
 
 
@@ -40,7 +40,7 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $data = $request->except('_token','_method');
-        return $this->redirectBack($category->where('id',$category->id)->update($data));
+        return $this->redirectBack($category->where('id',$category->id)->update($data),'category.index');
     }
 
 

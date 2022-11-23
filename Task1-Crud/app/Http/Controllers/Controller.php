@@ -10,9 +10,9 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public function redirectBack(bool $status){
+    public function redirectBack(bool $status, $route){
         if($status){
-            return redirect()->route('articale.index')->with('success','Successfull Operation');
+            return redirect()->route($route)->with('success','Successfull Operation');
         }
         return redirect()->back()->with('erorr','Failed Operation');
     }
