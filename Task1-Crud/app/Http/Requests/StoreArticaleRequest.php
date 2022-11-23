@@ -27,7 +27,8 @@ class StoreArticaleRequest extends FormRequest
         return [
         'title'=>'required|max:255',
         'description' =>'required|max:255',
-        'image'=>'mimes:png,jpg,jpeg|max:1000'
+        'image'=>'mimes:png,jpg,jpeg|max:1000',
+        'category_id' =>'required|exists:categories,id'
         ];
     }
 }
