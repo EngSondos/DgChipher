@@ -12,6 +12,7 @@
             </li>
 
 
+@if (Session::has('loginId'))
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -35,6 +36,10 @@
             </li>
 
                 </ul>
+                <form action="{{route('logout')}}" method="get">
+                    <button class="btn btn-danger">Logout</button>
+                </form>
+                @endif
 
 
     </div>

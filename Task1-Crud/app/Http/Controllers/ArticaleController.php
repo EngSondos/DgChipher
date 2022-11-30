@@ -33,7 +33,7 @@ class ArticaleController extends Controller
         }
         // dd($data);
         $status=Articale::create($data);
-        return $this->redirectBack($status->exists,'aricale.index');
+        return $this->redirectBack($status->exists,'articale.index');
     }
 
 

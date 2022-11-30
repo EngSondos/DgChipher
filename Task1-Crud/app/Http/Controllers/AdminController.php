@@ -2,10 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\StoreAdminRequest;
+use App\Models\Admin;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
+    public function register()
+    {
+        $roles = Role::all();
+        return view('register', compact('roles'));
+    }
+    public function registerRequest(StoreAdminRequest $request)
+    {
+        $data = $request->except('_token', 'password');
+        $data['password'] = Hash::make($request->password);
+        Session::push('loginId', $data['email']);
+        $status = Admin::create($data);
+        return redirect()->route('articale.index');
+    }
+    public function Login()
+    {
+        $roles = Role::all();
+        return view('login', compact('roles'));
+    }
+
+    public function LoginRequest(LoginRequest $request)
+    {
+        $data = $request->except('_token');
+        $admin = Admin::where('email', $request->email)->first();
+        if ($admin && Hash::check($data['password'], $admin->password)) {
+            Session::put('loginId', $data['email']);
+            return redirect()->route('articale.index');
+        }
+        return redirect('login');
+    }
+    public function logout()
+    {
+        Session::forget('loginId', 'role');
+        return redirect()->route('login');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -81,5 +121,4 @@ class AdminController extends Controller
     {
         //
     }
-    
 }
