@@ -22,8 +22,7 @@ class RoleAuth
     {
         $route = Route::getRoutes()->match($request);
         $currentroute = $route->getName();
-        $roles = Role::Where('id',Session::get('RoleId'))->with(['permission'])->first();
-        foreach($roles->permission as $permission ){
+        foreach(Session::get('permissions') as $permission ){
            if( Str::contains($currentroute, Str::lower( $permission->name) )){
             return $next($request);
            }

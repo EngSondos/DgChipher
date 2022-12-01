@@ -50,5 +50,5 @@ Route::controller(ProductController::class)->prefix('product/')->name('product.'
     Route::get('index','index')->name('index');
 
 });
-Route::get('/logout',[AdminController::class,'logout'])->name('logout');
 });
+Route::get('/logout',[AdminController::class,'logout'])->name('logout')->middleware('login');

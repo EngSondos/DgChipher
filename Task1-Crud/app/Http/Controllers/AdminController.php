@@ -35,17 +35,17 @@ class AdminController extends Controller
     {
         $data = $request->except('_token');
         $admin = Admin::where('email', $request->email)->first();
+        $role = Role::Where('id',$admin->role_id)->with(['permission'])->first();
         if ($admin && Hash::check($data['password'], $admin->password)) {
             Session::put('loginId', $data['email']);
-            Session::put('RoleId', $data['role_id']);
-            // dd(Session::get('RoleId'));
+            Session::put('permissions', $role->permission);
             return redirect()->route('articale.index');
         }
         return redirect('login');
     }
     public function logout()
     {
-        Session::forget('loginId', 'role');
+        Session::forget('loginId');
         return redirect()->route('login');
     }
     /**

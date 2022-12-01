@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col-xs-1-12 mt-5">
     <div class="text-right mb-3">
-        <form action="{{route('articale.destroy',$articale->id)}}" method="post">
+        <form action="{{route('articale.destroy',$articale)}}" method="post">
             @method('delete')
             @csrf
             <button class="btn btn-danger">X</button>

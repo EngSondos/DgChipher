@@ -59,6 +59,7 @@ class ArticaleController extends Controller
     public function destroy(Articale $articale)
     {
         #delete image from server
+        dd($articale);
         Media::delete(public_path("images/articales/$articale->image"));
         $articale->delete();
         return redirect()->back()->with('success','Articale Deleted Successfully');
