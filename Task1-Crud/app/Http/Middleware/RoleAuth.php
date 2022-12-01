@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Admin;
 use Closure;
+use App\Models\Role;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route ;
 use Illuminate\Support\Facades\Session;
 
 class RoleAuth
@@ -18,8 +20,13 @@ class RoleAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::get('RoleId')==Admin::firstWhere('email',Session::get('LoginId')->role_id)){
-        return $next($request);
+        $route = Route::getRoutes()->match($request);
+        $currentroute = $route->getName();
+        $roles = Role::Where('id',Session::get('RoleId'))->with(['permission'])->first();
+        foreach($roles->permission as $permission ){
+           if( Str::contains($currentroute, Str::lower( $permission->name) )){
+            return $next($request);
+           }
         }
         return redirect()->route('articale.index');
     }

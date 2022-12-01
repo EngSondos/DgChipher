@@ -37,6 +37,8 @@ class AdminController extends Controller
         $admin = Admin::where('email', $request->email)->first();
         if ($admin && Hash::check($data['password'], $admin->password)) {
             Session::put('loginId', $data['email']);
+            Session::put('RoleId', $data['role_id']);
+            // dd(Session::get('RoleId'));
             return redirect()->route('articale.index');
         }
         return redirect('login');

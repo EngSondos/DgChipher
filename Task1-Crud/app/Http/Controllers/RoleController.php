@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRoleRequest;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -23,7 +26,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $permissions = Permission::all();
+        return view('Roles.create',compact('permissions'));
     }
 
     /**
@@ -32,9 +36,12 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        //
+        $data = $request->except('_token');
+        $status = Role::create($data);
+        return $this->redirectBack($status->exists , 'articale.index');
+
     }
 
     /**

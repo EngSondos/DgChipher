@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticaleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +24,7 @@ Route::middleware('notguest')->controller(AdminController::class)->group(functio
     Route::post('registerRequest','registerRequest')->name('registerRequest');
 });
 
-Route::middleware('login')->group(function(){
+Route::middleware('login','roleAuth')->group(function(){
 Route::controller(ArticaleController::class)->prefix('articale/')->name('articale.')->group(function(){
     Route::get('create','create')->name('create');
     Route::post('store','store')->name('store');
@@ -39,6 +40,13 @@ Route::controller(CategoryController::class)->prefix('category/')->name('categor
     Route::get('{category}/edit','edit')->name('edit');
     Route::put('{category}/update','update')->name('update');
     Route::delete('{category}/destroy','destroy')->name('destroy');
+});
+Route::controller(ProductController::class)->prefix('product/')->name('product.')->group(function(){
+    Route::get('create','create')->name('create');
+    Route::post('store','store')->name('store');
+    Route::get('{product}/edit','edit')->name('edit');
+    Route::put('{product}/update','update')->name('update');
+    Route::delete('{product}/destroy','destroy')->name('destroy');
 });
 Route::get('/logout',[AdminController::class,'logout'])->name('logout');
 });
