@@ -47,6 +47,8 @@ Route::controller(ProductController::class)->prefix('product/')->name('product.'
     Route::get('{product}/edit','edit')->name('edit');
     Route::put('{product}/update','update')->name('update');
     Route::delete('{product}/destroy','destroy')->name('destroy');
+    Route::get('index','index')->name('index');
+
 });
 Route::get('/logout',[AdminController::class,'logout'])->name('logout');
 });

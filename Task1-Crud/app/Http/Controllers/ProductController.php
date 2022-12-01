@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view ("Proudct/index",compact('products'));
+        return view ("Product/index",compact('products'));
     }
 
 
@@ -27,27 +27,28 @@ class ProductController extends Controller
     {
         $data=$request->except('_token');
         $status=Product::create($data);
-        return $this->redirectBack($status->exists,'articale.index');
+        return $this->redirectBack($status->exists,'product.index');
     }
 
 
     public function edit(Product $product)
     {
-        return view("Articales/update",compact('permission'));
+        // dd($product);
+        return view("product/update",compact('product'));
     }
 
 
     public function update(UpdateProductnRequest $request, Product $product)
     {
         $data = $request->except('_token','_method');
-        return $this->redirectBack($product->where('id',$product->id)->update($data),'articale.index');
+        return $this->redirectBack($product->where('id',$product->id)->update($data),'product.index');
     }
 
     public function destroy(Product $product)
     {
 
         $product->delete();
-        return redirect()->back()->with('success','Articale Deleted Successfully');
+        return redirect()->back()->with('success','product Deleted Successfully');
 
     }
 }
