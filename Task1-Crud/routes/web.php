@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/',[ArticaleController::class,'index'])->name('articale.index');
+
 Route::middleware('notguest')->controller(AdminController::class)->group(function(){
     Route::get('/login','login')->name('login');
     Route::post('/loginRequest','loginRequest')->name('loginRequest');

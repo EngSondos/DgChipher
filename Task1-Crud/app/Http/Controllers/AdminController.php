@@ -22,6 +22,8 @@ class AdminController extends Controller
         $data = $request->except('_token', 'password');
         $data['password'] = Hash::make($request->password);
         Session::push('loginId', $data['email']);
+        $role = Role::Where('id',$data['role_id'])->with(['permission'])->first();
+        Session::put('permissions', $role->permission);
         $status = Admin::create($data);
         return redirect()->route('articale.index');
     }
@@ -35,8 +37,9 @@ class AdminController extends Controller
     {
         $data = $request->except('_token');
         $admin = Admin::where('email', $request->email)->first();
-        $role = Role::Where('id',$admin->role_id)->with(['permission'])->first();
+
         if ($admin && Hash::check($data['password'], $admin->password)) {
+            $role = Role::Where('id',$admin->role_id)->with(['permission'])->first();
             Session::put('loginId', $data['email']);
             Session::put('permissions', $role->permission);
             return redirect()->route('articale.index');

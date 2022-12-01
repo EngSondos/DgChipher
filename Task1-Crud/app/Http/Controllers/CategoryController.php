@@ -31,21 +31,28 @@ class CategoryController extends Controller
     }
 
 
-    public function edit(Category $category)
+    public function edit(int $id)
     {
+        $category = Category::find($id);
+
         return view('categories.update',compact('category'));
     }
 
 
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, int $id)
     {
+        $category = Category::find($id);
+
         $data = $request->except('_token','_method');
         return $this->redirectBack($category->where('id',$category->id)->update($data),'category.index');
     }
 
 
-    public function destroy(Category $category)
+    public function destroy(int $id)
     {
+        $category = Category::find($id);
+        if(!$category)
+            abort(404);
         $category->delete();
         return redirect()->back()->with('success','Category Deleted Successfully');
     }

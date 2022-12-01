@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductnRequest;
 use App\Http\Requests\UpdateProductnRequest;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -31,21 +30,25 @@ class ProductController extends Controller
     }
 
 
-    public function edit(Product $product)
+    public function edit(int $id)
     {
+        $product = Product::find($id);
+
         return view("product/update",compact('product'));
     }
 
 
-    public function update(UpdateProductnRequest $request, Product $product)
+    public function update(UpdateProductnRequest $request, int $id)
     {
         $data = $request->except('_token','_method');
-        return $this->redirectBack($product->where('id',$product->id)->update($data),'product.index');
+        return $this->redirectBack(Product::where('id',$id)->update($data),'product.index');
     }
 
-    public function destroy(Product $product)
+    public function destroy(int $id)
     {
-
+        $product = Product::find($id);
+        if(!$product)
+            abort(404);
         $product->delete();
         return redirect()->back()->with('success','product Deleted Successfully');
 

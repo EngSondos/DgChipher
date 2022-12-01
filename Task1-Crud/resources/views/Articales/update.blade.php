@@ -5,8 +5,7 @@
     Update Articale
 </div>
 <div class="col-6 offset-3">
-    
-    <form action="{{route('articale.update',$articale)}}" method="post" enctype="multipart/form-data">
+    <form action="{{route('articale.update',['articale' => $articale->id])}}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group">

@@ -50,7 +50,12 @@
                     <button class="btn btn-danger">Logout</button>
                 </form>
                 @endif
+                @if (!Session::has('loginId'))
+    <form action="{{route('login')}}" method="get">
+        <button class="btn btn-primary ">Login</button>
+    </form>
 
-
+    
+                @endif
     </div>
 </nav>

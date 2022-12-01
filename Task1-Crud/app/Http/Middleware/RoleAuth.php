@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Permission;
 use Closure;
 use App\Models\Role;
 use Illuminate\Support\Str;
@@ -22,10 +23,12 @@ class RoleAuth
     {
         $route = Route::getRoutes()->match($request);
         $currentroute = $route->getName();
+        if(Session::has('permissions')){
         foreach(Session::get('permissions') as $permission ){
            if( Str::contains($currentroute, Str::lower( $permission->name) )){
             return $next($request);
            }
+        }
         }
         return redirect()->route('articale.index');
     }

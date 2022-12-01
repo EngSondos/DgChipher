@@ -5,7 +5,7 @@
     <div class="col-8 offset-3 text-primary text-center mt-5 h1">
         Update Category
     </div>
-    <form action="{{route('category.update',$category)}}" method="post">
+    <form action="{{route('category.update',$category->id)}}" method="post">
         @csrf
         @method('PUT')
         <div class="form-group">

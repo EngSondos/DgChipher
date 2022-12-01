@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col-xs-1-12 mt-5">
     <div class="text-right mb-3">
-        <form action="{{route('articale.destroy',$articale)}}" method="post">
+        <form action="{{route('articale.destroy',$articale->id)}}" method="post">
             @method('delete')
             @csrf
             <button class="btn btn-danger">X</button>
@@ -27,7 +27,7 @@
 
         <div class="h5">{{$articale->category->name}}</div>
         <div class="text-right">
-            <form action="{{route('articale.edit',$articale->id)}}">
+            <form action="{{route('articale.edit',$articale)}}">
                 <button class="btn btn-primary">Edit</button>
             </form>
         </div>
