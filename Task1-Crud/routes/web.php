@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticaleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,11 +19,9 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/',[ArticaleController::class,'index'])->name('articale.index');
 
-Route::middleware('notguest')->controller(AdminController::class)->group(function(){
+Route::middleware('notguest')->controller(LoginController::class)->group(function(){
     Route::get('/login','login')->name('login');
     Route::post('/loginRequest','loginRequest')->name('loginRequest');
-    Route::get('register','register')->name('register');
-    Route::post('registerRequest','registerRequest')->name('registerRequest');
 });
 
 Route::middleware('login','roleAuth')->group(function(){

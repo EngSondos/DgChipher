@@ -21,6 +21,7 @@ class RoleAuth
      */
     public function handle(Request $request, Closure $next)
     {
+        
         $route = Route::getRoutes()->match($request);
         $currentroute = $route->getName();
         if(Session::has('permissions')){

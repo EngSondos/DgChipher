@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreArticaleRequest extends FormRequest
@@ -31,4 +32,5 @@ class StoreArticaleRequest extends FormRequest
         'category_id' =>'required|exists:categories,id'
         ];
     }
+
 }

@@ -12,40 +12,8 @@ use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
-    public function register()
-    {
-        $roles = Role::all();
-        return view('register', compact('roles'));
-    }
-    public function registerRequest(StoreAdminRequest $request)
-    {
-        $data = $request->except('_token', 'password');
-        $data['password'] = Hash::make($request->password);
-        Session::push('loginId', $data['email']);
-        $role = Role::Where('id',$data['role_id'])->with(['permission'])->first();
-        Session::put('permissions', $role->permission);
-        $status = Admin::create($data);
-        return redirect()->route('articale.index');
-    }
-    public function Login()
-    {
-        $roles = Role::all();
-        return view('login', compact('roles'));
-    }
 
-    public function LoginRequest(LoginRequest $request)
-    {
-        $data = $request->except('_token');
-        $admin = Admin::where('email', $request->email)->first();
 
-        if ($admin && Hash::check($data['password'], $admin->password)) {
-            $role = Role::Where('id',$admin->role_id)->with(['permission'])->first();
-            Session::put('loginId', $data['email']);
-            Session::put('permissions', $role->permission);
-            return redirect()->route('articale.index');
-        }
-        return redirect('login');
-    }
     public function logout()
     {
         Session::forget('loginId');

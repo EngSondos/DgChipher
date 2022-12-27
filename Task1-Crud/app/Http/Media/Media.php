@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Services;
+namespace App\Http\Media;
 class Media {
     public static function upload($dir,$image){
         $imagename= $image->hashName();

@@ -26,8 +26,5 @@
 <button class ='btn btn-primary w-100'>submit</button>
 </form>
 </div>
-<div class= 'col-6 offset-3'>
-    <a class = "btn btn-warning mt-5 "href="{{route('register')}}">Register</a>
 
-</div>
 @endsection

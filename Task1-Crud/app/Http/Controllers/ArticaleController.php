@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Media\Media;
 use App\Http\Requests\StoreArticaleRequest;
 use App\Http\Requests\UpdateArticaleRequest;
-use App\Http\Services\Media;
+use App\Http\Services\ArticalesService;
 use App\Models\Articale;
 use App\Models\Category;
-use Illuminate\Support\Facades\Artisan;
 
 class ArticaleController extends Controller
 {
+    private $articaleProvider;
+    public function __construct(ArticalesService $articaleProvider)
+    {
+        $this->articaleProvider = $articaleProvider;
+    }
+
     public function index()
     {
-        $articales = Articale::all();
+        $articales = $this->articaleProvider->getArticales();
         return view ("Articales/index",compact('articales'));
     }
 
