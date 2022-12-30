@@ -9,8 +9,8 @@ class CategoriesService{
     public function getCategory($id){
         $category= Category::find($id);
         if(!$category)
-            abort(404);
-        return true;
+            return false;
+        return $category;
     }
     public function updatecategory($id,$data){
         $category= $this->getCategory($id);
@@ -21,7 +21,7 @@ class CategoriesService{
         return Category::create($data);
     }
     public function deleteCategory($id){
-        $category=$this->getCategories($id);
+        $category=$this->getCategory($id);
        return $category->delete();
     }
 }

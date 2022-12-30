@@ -11,10 +11,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix('dashboard')->name('dashboard')->group(function (){
+Route::post('login',[\App\Http\Controllers\Api\AuthController::class,'login']);
+Route::middleware('auth:sanctum')->prefix('dashboard')->name('dashboard')->group(function (){
     Route::controller('ArticaleController')->prefix('/articales')->name('.articales')->group(function (){
-      Route::match(['get','post','put','delete'],'/{id?}','index')->name('.index');
+      Route::match(['get','delete'],'/{id?}','index')->name('.index');
+      Route::put('/update/{id}','update')->name('update');
+      Route::post('/store','store')->name('.store');
     });
 });
+
 
 

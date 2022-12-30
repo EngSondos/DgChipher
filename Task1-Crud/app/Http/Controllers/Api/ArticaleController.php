@@ -11,6 +11,7 @@ use App\Http\Services\CategoriesService;
 use App\Traits\ApiRespone;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ArticaleController extends Controller
 
@@ -30,13 +31,11 @@ class ArticaleController extends Controller
         if(!$id) {
             $respone = match (strtoupper($request->method())) {
                 'GET' => $this->getArticales(),
-                'POST' => $this->store($request)
             };
             return $respone;
         }
         $respone = match (strtoupper($request->method())) {
             'GET' => $this->getArticaleWithCategories($id),
-            'PUT' => $this->update($request,$id),
             'DELETE'=>$this->destroy($id)
         };
         return $respone;
@@ -44,31 +43,33 @@ class ArticaleController extends Controller
     public function getArticaleWithCategories($id):JsonResponse{
         $articale= $this->articaleProvider->getArticale($id);
         $categories = $this->categoriesService->getCategories();
-        return $this->SendData('',[compact('articale'), compact('categories')]);
+        return $this->SendData('',[compact('articale'), compact('categories')],Response::HTTP_OK);
     }
     public function getArticales(){
         $articales =$this->articaleProvider->getArticales();
       return $this->SendData('',['articles'=>compact('articales')]);
     }
-    public function store(Request $request)
+    public function store(StoreArticaleRequest $request):JsonResponse
     {
         if ($this->articaleProvider->storeArticale($request)) {
-            return $this->success('Articale Created Successfully');
+            return $this->success('Articale Created Successfully',Response::HTTP_CREATED);
         }
-        return $this->error('Some Thing Wrong', 400);
+        return $this->error('Some Thing Wrong',444);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateArticaleRequest $request, int $id):JsonResponse
     {
         if($this->articaleProvider->updateArticale($id,$request))
             return $this->success('Articales Updated Successfully');
-        return $this->error('Some Thing Wrong',400);
+        return $this->error('Some Thing Wrong',Response::HTTP_NOT_FOUND);
     }
 
 
-    public function destroy(int $id)
+    public function destroy(int $id):JsonResponse
     {
-        $this->articaleProvider->deleteArticale($id);
+        if(!$this->articaleProvider->deleteArticale($id)){
+            return $this->error('This Articale is Not Exists',Response::HTTP_NOT_FOUND);
+        }
         return $this->success('Articales Deleted');
     }
 }

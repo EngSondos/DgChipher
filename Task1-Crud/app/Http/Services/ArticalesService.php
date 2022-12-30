@@ -6,7 +6,7 @@ use App\Http\Media\Media;
 use App\Models\Articale;
 
 class ArticalesService {
-    private $images_dir ='image/articales';
+    const images_dir ='image/articales';
     public function getArticales(){
         return Articale::all();
     }
@@ -18,7 +18,7 @@ class ArticalesService {
         $articale= $this->getArticale($id);
         $data=$request->except('_token');
         if ($request->hasFile('image')) {
-            $newimage = Media::upload(public_path($this->images_dir), $request->file('image'));
+            $newimage = Media::upload(public_path(self::images_dir), $request->file('image'));
             Media::delete($this->images_dir . "//$articale->image");
             $data['image'] = $newimage;
         }
@@ -27,7 +27,7 @@ class ArticalesService {
     public function storeArticale($request){
         $data=$request->except('_token','image');
         if($request->hasFile('image')){
-            $newimage= Media::upload(public_path($this->images_dir),$request->file('image'));
+            $newimage= Media::upload(public_path(self::images_dir),$request->file('image'));
             $data['image']= $newimage;
         }
         $articale = Articale::create($data);
